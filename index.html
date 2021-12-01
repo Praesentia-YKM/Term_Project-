@@ -5,8 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Learning</title>
+    <script src="/jquery/jquery.js"></script>
+
+    <script> $(document).ready(function(){ 
+        if (!('url' in window) && ('webkitURL' in window)) { 
+            window.URL = window.webkitURL; 
+        } 
+        $('#camera').change(function(e){ $('#pic').attr('src', URL.createObjectURL(e.target.files[0])); }); }); 
+    </script>
+
+
 </head>
 <body>
+    <input type="file" id="camera" name="camera" capture="camera" accept="image/*" /> <br /> 
+    <img id="pic" style="width:100%;" />
+
     <div>Teachable Machine Image Model</div>
 <button type="button" onclick="init()">Start</button>
 <div id="webcam-container"></div>
