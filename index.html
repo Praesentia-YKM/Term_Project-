@@ -43,8 +43,16 @@
         // Convenience function to setup a webcam
         const flip = true; // whether to flip the webcam
         webcam = new tmImage.Webcam(400, 400, flip); // width, height, flip
+
         await webcam.setup(); // request access to the webcam
         await webcam.play();
+        const img = await webcam.capture();
+        document.getElementById("console")
+        const result = await net.classify(img);
+        innerText = `
+  prediction: ${result[0].className}\n
+  probability: ${result[0].probability}
+  `;
         window.requestAnimationFrame(loop);
 
         // append elements to the DOM
@@ -53,13 +61,14 @@
         for (let i = 0; i < maxPredictions; i++) { // and class labels
             labelContainer.appendChild(document.createElement("div"));
         }
-        var takePicture = document.querySelector("#take-picture");
-     
+           var takePicture = document.querySelector("#take-picture");
+           
 
     }
 
     async function loop() {
         webcam.update(); // update the webcam frame
+        
         await predict();
         window.requestAnimationFrame(loop);
     }
@@ -74,6 +83,7 @@
             labelContainer.childNodes[i].innerHTML = classPrediction;
         }
     }
+    var captureButton = document.getElementById("capture");
 
     
 </script>
