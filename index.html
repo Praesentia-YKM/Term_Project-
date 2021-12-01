@@ -5,9 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Learning</title>
-
-
-  
+ 
 
 
 </head>
@@ -29,7 +27,7 @@
     const URL = "./my_model/";
 
     let model, webcam, labelContainer, maxPredictions;
-    
+ 
     // Load the image model and setup the webcam
     async function init() {
         const modelURL = URL + "model.json";
@@ -44,7 +42,7 @@
 
         // Convenience function to setup a webcam
         const flip = true; // whether to flip the webcam
-        webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+        webcam = new tmImage.Webcam(400, 400, flip); // width, height, flip
         await webcam.setup(); // request access to the webcam
         await webcam.play();
         window.requestAnimationFrame(loop);
@@ -55,6 +53,15 @@
         for (let i = 0; i < maxPredictions; i++) { // and class labels
             labelContainer.appendChild(document.createElement("div"));
         }
+        var takePicture = document.querySelector("#take-picture");
+takePicture.onchange = function (event) {
+    // 찍거나 선택한 파일에 대한 참조를 얻음
+    var files = event.target.files,
+        file;
+    if (files && files.length > 0) {
+        file = files[0];
+    }
+};
     }
 
     async function loop() {
