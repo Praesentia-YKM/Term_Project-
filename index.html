@@ -40,8 +40,8 @@
     // the link to your model provided by Teachable Machine export panel
     const URL = "./my_model/";
 
-    let model, webcam, labelContainer, maxPredictions;
- 
+
+    let model, webcam, img, wlabelContainer, ilabelContainer, clabelContainer, maxPredictions;
     // Load the image model and setup the webcam
     async function init() {
         const modelURL = URL + "model.json";
