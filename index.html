@@ -47,7 +47,7 @@
         await webcam.setup(); // request access to the webcam
         await webcam.play();
         window.requestAnimationFrame(loop);
-
+        
         // append elements to the DOM
         document.getElementById("webcam-container").appendChild(webcam.canvas);
         labelContainer = document.getElementById("label-container");
@@ -58,14 +58,58 @@
            
 
     }
+    $(document).ready(function () {
+        console.log("ready on");
 
+        if (!('url' in window) && ('webkitURL' in window)) {
+            console.log("if on");
+            window.URL = window.webkitURL;
+        }
+        $('#camera').change(async function (e) {
+            console.log("change on");
+            
+            img = new Image(300, 300);
+            img.src = window.URL.createObjectURL(e.target.files[0]);
+            const imgctn = document.getElementById("imgContainer");
+            imgctn.innerHTML = "<div id=\"imgContainer\"></div>";
+            imgctn.appendChild(img);
+            
+
+            const modelURL = URL + "model.json";
+               const metadataURL = URL + "metadata.json";
+           
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+            
+            clabelContainer = document.getElementById("clabel-container1");
+            Imagepredict(clabelContainer);
+            clabelContainer.appendChild(document.createElement("div"));
+            document.getElementById("searchbtn").disabled = false;
+            console.log("change off");
+        });
+        console.log("ready off");
+    });
     async function loop() {
         webcam.update(); // update the webcam frame
         
         await predict();
         window.requestAnimationFrame(loop);
     }
-
+    async function Imagepredict(label) {
+        const prediction = await model.predict(img);
+        let maxPrediction = prediction[0].probability.toFixed(2);
+        let maxID = "";
+        let classPrediction = "";
+        for (let i = 1; i < maxPredictions; i++) {
+            if (maxPrediction < prediction[i].probability.toFixed(2)){
+                maxPrediction = prediction[i].probability.toFixed(2);
+                classPrediction = prediction[i].className;
+            }
+        }
+        label.innerHTML = classPrediction + ": " + maxPrediction;
+      
+        const searchinput = document.getElementById("searchinput").value = maxID;
+    }
     // run the webcam image through the image model
     async function predict() {
         // predict can take in an image, video or canvas html element
@@ -78,8 +122,10 @@
     }
 
 
+
     
 </script>
+
 
 </body>
 </html>
