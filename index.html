@@ -19,7 +19,7 @@
     <div id="clabel-container1"></div>
     <br>
     
-    <input type="file" id="take-picture" name="camera" capture="camera" accept="image/*" /> <br /> 
+    
     <img id="pic" style="width:100%;" />
 
     <div>Teachable Machine Image Model</div>
@@ -95,7 +95,6 @@
             clabelContainer = document.getElementById("clabel-container1");
             Imagepredict(clabelContainer);
             clabelContainer.appendChild(document.createElement("div"));
-            document.getElementById("searchbtn").disabled = false;
             console.log("change off");
         });
         console.log("ready off");
@@ -119,7 +118,7 @@
         }
         label.innerHTML = classPrediction + ": " + maxPrediction;
       
-        const searchinput = document.getElementById("searchinput").value = maxID;
+
     }
     // run the webcam image through the image model
     async function predict() {
